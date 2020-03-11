@@ -118,6 +118,16 @@ public class RNFirebaseNotifications extends ReactContextBaseJavaModule implemen
   }
 
   @ReactMethod
+  public void getAllDeliveredNotifications(Promise promise) {
+    ArrayList<Bundle> bundles = notificationManager.getAllDeliveredNotifications();
+    WritableArray array = Arguments.createArray();
+    for (Bundle bundle : bundles) {
+      array.pushMap(parseNotificationBundle(bundle));
+    }
+    promise.resolve(array);
+  }
+
+  @ReactMethod
   public void removeDeliveredNotification(String notificationId, Promise promise) {
     notificationManager.removeDeliveredNotification(notificationId, promise);
   }

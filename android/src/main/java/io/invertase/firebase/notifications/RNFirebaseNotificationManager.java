@@ -28,7 +28,9 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
+import com.google.gson.Gson;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -259,6 +261,25 @@ class RNFirebaseNotificationManager {
     return array;
   }
 
+  ArrayList<Bundle> getAllDeliveredNotifications(){
+    ArrayList<Bundle> array = new ArrayList<>();
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+      StatusBarNotification[] statusBarNotifications = notificationManager.getActiveNotifications();
+      try{
+
+        String notificationJSON = new Gson().toJson(statusBarNotifications);
+        JSONObject mObject = new JSONObject();
+        mObject.put("notifications",new JSONArray(notificationJSON));
+        JSONArray json = new JSONArray(notificationJSON);
+        Bundle bundle = BundleJSONConverter.convertToBundle(mObject);
+        array.add(bundle);
+      }catch (Exception e){
+        e.printStackTrace();
+      }
+    }
+    return array;
+    //return statusBarNotifications
+  }
   void removeAllDeliveredNotifications(Promise promise) {
     notificationManager.cancelAll();
     promise.resolve(null);
