@@ -284,6 +284,10 @@ export default class Notifications extends ModuleBase {
     return getNativeModule(this).removeAllDeliveredNotifications();
   }
 
+  getAllDeliveredNotifications(): Promise<void> {
+    return getNativeModule(this).getAllDeliveredNotifications();
+  }
+
   /**
    * Remove a delivered notification.
    * @param notificationId

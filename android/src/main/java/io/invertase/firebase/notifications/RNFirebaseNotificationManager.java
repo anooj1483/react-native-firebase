@@ -270,7 +270,6 @@ class RNFirebaseNotificationManager {
         String notificationJSON = new Gson().toJson(statusBarNotifications);
         JSONObject mObject = new JSONObject();
         mObject.put("notifications",new JSONArray(notificationJSON));
-        JSONArray json = new JSONArray(notificationJSON);
         Bundle bundle = BundleJSONConverter.convertToBundle(mObject);
         array.add(bundle);
       }catch (Exception e){
